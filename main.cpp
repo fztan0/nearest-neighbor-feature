@@ -5,7 +5,7 @@
 
 int main()
 {
-  std::string file_path = "input-data/CS170_Small_Data__125.txt";
+  std::string file_path = "input-data/CS170_Large_Data__42.txt";
   IEEEParser parser;
   std::vector<RowData> data_set;
 
@@ -31,6 +31,10 @@ int main()
 
     std::cout << "\n";
   }
+
+  std::cout << "number of features: " << RowData::GetNumberOfFeatures(data_set) << "\n";
+  std::cout << "number of features: " << RowData::GetNumberOfLabels(data_set) << "\n";
+
 
   return 0;
 }
