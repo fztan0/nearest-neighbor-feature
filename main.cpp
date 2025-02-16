@@ -2,6 +2,7 @@
 #include <iomanip> // Include this header for std::setprecision
 
 #include "print_handler.hpp"
+#include "nearest_neighbor_classifier.hpp"
 
 // int main(int argc, char* argv[])
 int main()
@@ -15,9 +16,9 @@ int main()
     return -1;
   }
 
-  std::vector<RowData> data_set = parser.ParseDataSet();
+  NearestNeighborClassifier classifier{parser.ParseDataSet()};
 
-  PrintHandler::PrintDataSet(data_set);
+  PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
 
 
