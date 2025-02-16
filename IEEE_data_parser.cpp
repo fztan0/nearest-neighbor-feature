@@ -1,6 +1,30 @@
-#include "IEEE_Parser.hpp"
+#include "IEEE_data_parser.hpp"
 
 // initialize static member
+
+int RowData::GetNumberOfFeatures(const std::vector<RowData>& data_set)
+{
+  if ( data_set.empty() )
+  {
+    std::cout << "data_set empty\n";
+
+    return -1;
+  }
+
+  return static_cast<int>(data_set[0].feature_values.size());
+}
+
+int RowData::GetNumberOfLabels(const std::vector<RowData>& data_set)
+{
+  if ( data_set.empty() )
+  {
+    std::cout << "data_set empty\n";
+
+    return -1;
+  }
+
+  return static_cast<int>(data_set.size());
+}
 
 std::ifstream& IEEEParser::GetInputFileStream()
 {
