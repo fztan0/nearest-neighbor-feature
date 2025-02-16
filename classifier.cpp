@@ -17,8 +17,8 @@ std::vector<RowData>& Classifier::GetTrainingDataSet()
 */
 double Classifier::GetEuclideanDistance(const RowData &r1, const RowData &r2, const std::vector<std::size_t> &feature_indices)
 {
-  double dimension_difference = 0.0;
-  double euclidean_distance = 0.0;
+  double dimension_difference{};
+  double euclidean_distance{};
 
   // sum every dimensional space of the wanted feature space
   for ( std::size_t i = 0; i < feature_indices.size(); ++i )

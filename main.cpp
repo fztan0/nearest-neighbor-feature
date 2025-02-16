@@ -35,8 +35,5 @@ int main()
 
   // std::cout << classifier.GetEuclideanDistance( test1, test2, {1, 2} ) << "\n";
 
-
-
-
   return 0;
 }
