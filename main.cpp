@@ -20,7 +20,12 @@ int main()
 
   PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
-
+  std::cout << "Accessing feature_values[492]:\n";
+  for (const auto& feature : classifier.GetTrainingDataSet()[492].feature_values)
+  {
+    std::cout << feature << " ";
+  }
+  std::cout << "\n";
 
 
   return 0;

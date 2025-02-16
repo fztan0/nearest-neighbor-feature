@@ -9,9 +9,8 @@ class NearestNeighborClassifier
 {
   public:
     NearestNeighborClassifier(const std::vector<RowData>& training_data_set) : training_data_set_(training_data_set) { }
-    ~NearestNeighborClassifier() { }
 
-    std::vector<RowData> GetTrainingDataSet() const;
+    std::vector<RowData>& GetTrainingDataSet();
     void SetTrainingDataSet(const std::vector<RowData>& training_data_set);
 
 

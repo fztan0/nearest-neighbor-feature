@@ -9,7 +9,7 @@
 
 struct RowData
 {
-  uint class_label;
+  int class_label;
   std::vector<double> feature_values;
 
   static int GetNumberOfFeatures(const std::vector<RowData>& data_set);

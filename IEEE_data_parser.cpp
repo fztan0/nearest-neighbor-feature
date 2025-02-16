@@ -45,30 +45,30 @@ int IEEEParser::SetInputFileStream(const std::string& file_path)
 
 std::vector<RowData> IEEEParser::ParseDataSet()
 {
-  double input_feature_value;
+  double IEEE_input_value;
   RowData row_data;
+
   std::string string_for_string_stream;
   std::stringstream string_stream;
+
   std::vector<RowData> data_set;
 
   while ( std::getline(input_file_stream_, string_for_string_stream) )
   {
-    // clear previous row data loading before processing new row
-    row_data.feature_values.clear();
-    string_stream.clear();
-    string_stream.str(string_for_string_stream); // set new string for stream
+    string_stream.str(string_for_string_stream);
 
-    string_stream >> input_feature_value; // first get class label value
+    string_stream >> IEEE_input_value;
+    row_data.class_label = static_cast<int>(IEEE_input_value);
 
-    row_data.class_label = static_cast<uint>(input_feature_value);
-
-    while ( string_stream >> input_feature_value )
+    while (string_stream >> IEEE_input_value)
     {
-      row_data.feature_values.push_back(input_feature_value);
+      row_data.feature_values.push_back(IEEE_input_value);
     }
 
     data_set.push_back(row_data);
 
+    string_stream.clear();
+    row_data.feature_values.clear();
   }
 
   return data_set;
