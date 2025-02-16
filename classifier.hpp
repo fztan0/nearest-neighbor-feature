@@ -1,5 +1,5 @@
-#ifndef NEAREST_NEIGHBOR_CLASSIFIER_HPP_
-#define NEAREST_NEIGHBOR_CLASSIFIER_HPP_
+#ifndef CLASSIFIER_HPP_
+#define CLASSIFIER_HPP_
 
 #include <vector>
 #include <cmath>
@@ -17,6 +17,8 @@ class Classifier
     double GetEuclideanDistance(const RowData& r1, const RowData& r2, const std::vector<std::size_t>& feature_indices);
 
 
+    double CalculateCrossValidationAccuracy();
+
 
     void NearestNeighborClassifier();
 
@@ -26,4 +28,4 @@ class Classifier
 
 };
 
-#endif  // NEAREST_NEIGHBOR_CLASSIFIER_HPP_
+#endif // CLASSIFIER_HPP_

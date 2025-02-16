@@ -17,7 +17,7 @@ void PrintHandler::PrintDataSet(const std::vector<RowData>& data_set)
     std::cout << "\n";
   }
 
-  std::cout << "number of features: " << RowData::GetNumberOfFeatures(data_set) << "\n";
+  std::cout << "features per label: " << RowData::GetNumberOfFeatures(data_set) << "\n";
   std::cout << "number of labels: " << RowData::GetNumberOfLabels(data_set) << "\n";
 
   return;
