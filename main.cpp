@@ -2,7 +2,7 @@
 #include <iomanip> // Include this header for std::setprecision
 
 #include "print_handler.hpp"
-#include "nearest_neighbor_classifier.hpp"
+#include "classifier.hpp"
 
 // int main(int argc, char* argv[])
 int main()
@@ -16,16 +16,26 @@ int main()
     return -1;
   }
 
-  NearestNeighborClassifier classifier{parser.ParseDataSet()};
+  Classifier classifier{parser.ParseDataSet()};
 
-  PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
+  // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
-  std::cout << "Accessing feature_values[492]:\n";
-  for (const auto& feature : classifier.GetTrainingDataSet()[492].feature_values)
-  {
-    std::cout << feature << " ";
-  }
-  std::cout << "\n";
+  // std::cout << "Accessing feature_values[492]:\n";
+  // for (const auto& feature : classifier.GetTrainingDataSet()[492].feature_values)
+  // {
+  //   std::cout << feature << " ";
+  // }
+  // std::cout << "\n";
+
+  // RowData test1;
+  // RowData test2;
+
+  // test1.feature_values = {-1.5808788, 0.6725764, 0.9258087};
+  // test2.feature_values = {-0.9510147, -0.5513586, -0.0666014};
+
+  // std::cout << classifier.GetEuclideanDistance( test1, test2, {1, 2} ) << "\n";
+
+
 
 
   return 0;

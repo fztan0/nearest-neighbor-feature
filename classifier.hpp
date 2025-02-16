@@ -2,16 +2,23 @@
 #define NEAREST_NEIGHBOR_CLASSIFIER_HPP_
 
 #include <vector>
+#include <cmath>
 
 #include "IEEE_data_parser.hpp"
 
-class NearestNeighborClassifier
+class Classifier
 {
   public:
-    NearestNeighborClassifier(const std::vector<RowData>& training_data_set) : training_data_set_(training_data_set) { }
+    Classifier(const std::vector<RowData>& training_data_set) : training_data_set_(training_data_set) { }
 
     std::vector<RowData>& GetTrainingDataSet();
     void SetTrainingDataSet(const std::vector<RowData>& training_data_set);
+
+    double GetEuclideanDistance(const RowData& r1, const RowData& r2, const std::vector<std::size_t>& feature_indices);
+
+
+
+    void NearestNeighborClassifier();
 
 
   private:
