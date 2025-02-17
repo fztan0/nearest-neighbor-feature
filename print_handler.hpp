@@ -10,7 +10,7 @@ class PrintHandler
 {
   public:
     static void PrintDataSet(const std::vector<RowData>& data_set);
-
+    static void PrintFeaturesTable(const std::vector<std::size_t>& features);
 
   private:
 

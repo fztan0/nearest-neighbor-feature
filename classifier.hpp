@@ -9,15 +9,21 @@
 class Classifier
 {
   public:
-    Classifier(const std::vector<RowData>& training_data_set) : training_data_set_(training_data_set) { }
+    Classifier(const std::vector<RowData>& data_set);
 
     std::vector<RowData>& GetTrainingDataSet();
     void SetTrainingDataSet(const std::vector<RowData>& training_data_set);
 
+    std::vector<std::size_t> GetAllFeatureColumnIndices() const;
+    void SetAllFeatureColumnIndices(const std::vector<std::size_t>& all_feature_indices);
+
+    std::vector<std::size_t> GetCustomFeatureIndices() const;
+    void SetCustomFeatureIndices(const std::vector<std::size_t>& custom_feature_indices);
+
     double GetEuclideanDistance(const RowData& r1, const RowData& r2, const std::vector<std::size_t>& feature_indices);
 
 
-    double CalculateCrossValidationAccuracy();
+    double CalculateLeaveOneOutCrossValidation();
 
 
     void NearestNeighborClassifier();
@@ -25,7 +31,8 @@ class Classifier
 
   private:
     std::vector<RowData> training_data_set_;
-
+    std::vector<std::size_t> all_feature_column_indices_;
+    std::vector<std::size_t> custom_feature_indices_;
 };
 
 #endif // CLASSIFIER_HPP_

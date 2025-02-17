@@ -7,7 +7,9 @@
 // int main(int argc, char* argv[])
 int main()
 {
+  // CHANGE THIS  TO CLI ARG INPUT AFTER FINISHING
   std::string file_path = "input-data/CS170_Small_Data__125.txt";
+
   IEEEParser parser{};
 
   if ( parser.SetInputFileStream(file_path) != 0 )
@@ -18,7 +20,12 @@ int main()
 
   Classifier classifier{parser.ParseDataSet()};
 
-  // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
+  PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
+
+  PrintHandler::PrintFeaturesTable(classifier.GetAllFeatureColumnIndices());
+
+  std::cout << "K-Fold: " << classifier.CalculateLeaveOneOutCrossValidation() << "\n";
+
 
   // std::cout << "Accessing feature_values[492]:\n";
   // for (const auto& feature : classifier.GetTrainingDataSet()[492].feature_values)
@@ -34,6 +41,7 @@ int main()
   // test2.feature_values = {-0.9510147, -0.5513586, -0.0666014};
 
   // std::cout << classifier.GetEuclideanDistance( test1, test2, {1, 2} ) << "\n";
+
 
   return 0;
 }

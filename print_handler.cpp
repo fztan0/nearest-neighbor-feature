@@ -22,3 +22,15 @@ void PrintHandler::PrintDataSet(const std::vector<RowData>& data_set)
 
   return;
 }
+
+void PrintHandler::PrintFeaturesTable(const std::vector<std::size_t>& feature_columns)
+{
+  for ( const auto& feature : feature_columns )
+  {
+    std::cout << feature << " ";
+  }
+
+  std::cout << "\n";
+
+  return;
+}
