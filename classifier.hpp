@@ -23,10 +23,10 @@ class Classifier
     double GetEuclideanDistance(const RowData& r1, const RowData& r2, const std::vector<std::size_t>& feature_indices);
 
 
-    int GetNearestNeighborIndex(const RowData& test_row);
+    std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index);
     double LeaveOneOutCrossValidation();
 
-    double CalculateNearestNeighborLeaveOneOutCrossValidation();
+    double CalculateLeaveOneOutValidation();
 
 
     void NearestNeighborClassifier();

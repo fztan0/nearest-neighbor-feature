@@ -22,9 +22,9 @@ int main()
 
   PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
-  PrintHandler::PrintFeaturesTable(classifier.GetAllFeatureColumnIndices());
+  // PrintHandler::PrintFeaturesTable(classifier.GetAllFeatureColumnIndices());
 
-  std::cout << "K-Fold: " << classifier.CalculateNearestNeighborLeaveOneOutCrossValidation() << "\n";
+  std::cout << "K-Fold: " << classifier.CalculateLeaveOneOutValidation() << "\n";
 
 
   // std::cout << "Accessing feature_values[492]:\n";
