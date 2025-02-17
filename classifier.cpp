@@ -63,7 +63,7 @@ double Classifier::GetEuclideanDistance(const RowData &r1, const RowData &r2, co
   return sqrt(euclidean_distance);
 }
 
-double Classifier::CalculateLeaveOneOutCrossValidation()
+double Classifier::CalculateNearestNeighborLeaveOneOutCrossValidation()
 {
   // arbitrarily large distance to start
   double nearest_distance_so_far = std::numeric_limits<double>::max();
