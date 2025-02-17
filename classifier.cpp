@@ -66,26 +66,44 @@ double Classifier::GetEuclideanDistance(const RowData &r1, const RowData &r2, co
 double Classifier::CalculateLeaveOneOutCrossValidation()
 {
   // arbitrarily large distance to start
-  double nearest_neighbor_distance = std::numeric_limits<double>::max();
-  std::size_t nearest_neighbor_index{};
+  double nearest_distance_so_far = std::numeric_limits<double>::max();
+  std::size_t nearest_distance_index{};
   int correct_classifications{};
+  double recent_distance{};
 
   // for every row in the data set, look for its nearest neighbor
   for ( std::size_t i = 0; i < training_data_set_.size(); ++i )
   {
     for ( std::size_t j = 0; j < training_data_set_.size(); ++j )
     {
-      // skip the row current classifying
+      // skip current leave-one-out row
       if ( i == j )
         continue;
 
       // calculate the distance between two objects through all of its indices
-      nearest_neighbor_distance = GetEuclideanDistance(training_data_set_.at(i), training_data_set_.at(j), all_feature_column_indices_);
+      recent_distance = GetEuclideanDistance(training_data_set_.at(i), training_data_set_.at(j), all_feature_column_indices_);
 
+      // update the nearest distance
+      if (recent_distance < nearest_distance_so_far)
+      {
+        nearest_distance_so_far = recent_distance;
+        nearest_distance_index = j;
+      }
     }
 
+    // by here, we've found the nearest object TO the current row
 
+    // if the nearest object is the same class as the current row increment
+    if (training_data_set_.at(i).class_label == training_data_set_.at(nearest_distance_index).class_label)
+    {
+      ++correct_classifications;
+    }
+
+    nearest_distance_so_far = std::numeric_limits<double>::max();
   }
 
-  return 0.0;
+  // std::cout << correct_classifications << "\n";
+
+  // make sure to cast to double of all values involved
+  return ( (correct_classifications / static_cast<double>(RowData::GetNumberOfLabels(training_data_set_))) * 100.0 );
 }
