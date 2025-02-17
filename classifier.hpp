@@ -21,15 +21,8 @@ class Classifier
     void SetCustomFeatureIndices(const std::vector<std::size_t>& custom_feature_indices);
 
     double GetEuclideanDistance(const RowData& r1, const RowData& r2, const std::vector<std::size_t>& feature_indices);
-
-
     std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index);
-    double LeaveOneOutCrossValidation();
-
     double CalculateLeaveOneOutValidation();
-
-
-    void NearestNeighborClassifier();
 
 
   private:

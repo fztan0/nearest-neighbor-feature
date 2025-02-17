@@ -1,11 +1,11 @@
 #include "classifier.hpp"
 
-Classifier::Classifier(const std::vector<RowData>& data_set)
+Classifier::Classifier(const std::vector<RowData>& input_data_set)
 {
-  SetTrainingDataSet(data_set);
+  training_data_set_ = input_data_set;
 
-  // initialize all feature indices
-  for ( std::size_t i = 0; i < GetTrainingDataSet().at(0).feature_values.size(); ++i )
+  // initialize total number of feature column indices
+  for ( std::size_t i = 0; i < training_data_set_.at(0).feature_values.size(); ++i )
   {
     all_feature_column_indices_.push_back(i);
   }
@@ -13,14 +13,14 @@ Classifier::Classifier(const std::vector<RowData>& data_set)
 }
 
 
-std::vector<RowData> &Classifier::GetTrainingDataSet()
+std::vector<RowData>& Classifier::GetTrainingDataSet()
 {
   return training_data_set_;
 }
 
-void Classifier::SetTrainingDataSet(const std::vector<RowData>& training_data_set)
+void Classifier::SetTrainingDataSet(const std::vector<RowData>& data_set)
 {
-  GetTrainingDataSet() = training_data_set;
+  training_data_set_ = data_set;
 }
 
 std::vector<std::size_t> Classifier::GetAllFeatureColumnIndices() const
@@ -59,14 +59,16 @@ std::size_t Classifier::GetNearestNeighborIndex(const std::size_t current_testin
   double nearest_distance_so_far = std::numeric_limits<double>::max();
   std::size_t nearest_label_index_so_far{};
 
-  for ( std::size_t i = 0; i < GetTrainingDataSet().size(); ++i )
+  for ( std::size_t i = 0; i < training_data_set_.size(); ++i )
   {
     // skip current testing row
     if (current_testing_index == i)
       continue;
 
     // calculate the distance between two objects through all of its indices
-    double recent_distance = GetEuclideanDistance(GetTrainingDataSet().at(current_testing_index), GetTrainingDataSet().at(i), all_feature_column_indices_);
+    double recent_distance = GetEuclideanDistance(training_data_set_.at(current_testing_index),
+                                                  training_data_set_.at(i),
+                                                  all_feature_column_indices_);
 
     // update nearest distance label
     if (recent_distance < nearest_distance_so_far)
@@ -86,19 +88,19 @@ double Classifier::CalculateLeaveOneOutValidation()
   int correct_classifications{};
 
   // for every row in the data set, look for its nearest neighbor
-  for ( std::size_t i = 0; i < GetTrainingDataSet().size(); ++i )
+  for ( std::size_t i = 0; i < training_data_set_.size(); ++i )
   {
     nearest_distance_index = GetNearestNeighborIndex(i);
 
     // if the nearest object is the same class as the current row increment
-    if (GetTrainingDataSet().at(i).class_label == GetTrainingDataSet().at(nearest_distance_index).class_label)
+    if (training_data_set_.at(i).class_label == training_data_set_.at(nearest_distance_index).class_label)
     {
       ++correct_classifications;
     }
   }
 
-  // std::cout << correct_classifications << "\n";
+  std::cout << correct_classifications << "\n";
 
   // make sure to cast to double of all values involved
-  return ( (correct_classifications / static_cast<double>(RowData::GetNumberOfLabels(GetTrainingDataSet()))) * 100.0 );
+  return ( (correct_classifications / static_cast<double>(RowData::GetNumberOfLabels(training_data_set_))) * 100.0 );
 }
