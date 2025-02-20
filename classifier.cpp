@@ -107,12 +107,30 @@ double Classifier::CalculateLeaveOneOutValidation()
   return ( (correct_classifications / static_cast<double>(RowData::GetNumberOfLabels(training_data_set_))) * 100.0 );
 }
 
-FeatureSetAccuracy Classifier::ForwardSelection()
+void FeatureSetAccuracy::PrintFeatureSetAccuracy(const FeatureSetAccuracy &feature_set_accuracy)
+{
+  std::cout << "set: { ";
+
+  for ( const auto& feature_index : feature_set_accuracy.feature_indices )
+  {
+    std::cout << feature_index << " ";
+  }
+
+  std::cout << "} ";
+
+  std::cout << std::fixed << std::setprecision(2);
+  std::cout << "     ACC: " << feature_set_accuracy.accuracy << "\n";
+
+  return;
+}
+
+
+void Classifier::ForwardSelection()
 {
   FeatureSetAccuracy best_feature_set{};
 
 
 
 
-  return best_feature_set;
+  return;
 }

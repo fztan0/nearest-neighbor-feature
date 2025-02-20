@@ -34,3 +34,20 @@ void PrintHandler::PrintFeaturesTable(const std::vector<std::size_t>& feature_co
 
   return;
 }
+
+void PrintHandler::PrintFeatureSetAccuracy(const FeatureSetAccuracy &feature_set_accuracy)
+{
+  std::cout << "set: { ";
+
+  for ( const auto& feature_index : feature_set_accuracy.feature_indices )
+  {
+    std::cout << feature_index << " ";
+  }
+
+  std::cout << "} ";
+
+  std::cout << std::fixed << std::setprecision(2);
+  std::cout << "     ACC: " << feature_set_accuracy.accuracy << "\n";
+
+  return;
+}

@@ -1,13 +1,16 @@
 #ifndef CLASSIFIER_HPP_
 #define CLASSIFIER_HPP_
 
-#include <vector>
 #include <cmath>
+#include <iomanip>
+#include <vector>
 
 #include "IEEE_data_parser.hpp"
 
 struct FeatureSetAccuracy
 {
+  static void PrintFeatureSetAccuracy(const FeatureSetAccuracy &feature_set_accuracy);
+
   std::vector<std::size_t> feature_indices{};
   double accuracy = 0.0;
 };
@@ -27,8 +30,8 @@ class Classifier
   std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index);
   double CalculateLeaveOneOutValidation();
 
-  FeatureSetAccuracy ForwardSelection();
-  FeatureSetAccuracy BackwardElimination();
+  void ForwardSelection();
+  void BackwardElimination();
 
   private:
 
