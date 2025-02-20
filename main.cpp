@@ -6,7 +6,7 @@
 #include "chrono_benchmark.hpp"
 
 
-/*
+/* DATASET ASSIGNED
 
   SMALL: 46
   BIG: 81
@@ -57,13 +57,6 @@ int main()
       std::cerr << "Invalid choice. Please select 1 or 2.\n";
       return -1;
   }
-
-
-
-
-  std::cout << std::fixed << std::setprecision(2);
-  std::cout << "K-Fold on entire feature index, the accuracy is: " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "\n";
-
 
 
 

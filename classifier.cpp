@@ -199,6 +199,12 @@ void Classifier::ForwardSelection()
       best_feature_set.accuracy = best_accuracy;
     }
 
+    // warn about decreasing instead
+    if ( best_accuracy < best_feature_set.accuracy )
+    {
+      std::cout << "\n[WARNING] Accuracy has decreased! Continuing search in case of local maxima.";
+    }
+
     std::cout << "\nFeature set { ";
 
     for ( auto& k : current_feature_set )
