@@ -6,6 +6,11 @@
 
 #include "IEEE_data_parser.hpp"
 
+struct FeatureSetAccuracy
+{
+  std::vector<std::size_t> feature_indices{};
+  double accuracy = 0.0;
+};
 
 class Classifier
 {
@@ -22,15 +27,10 @@ class Classifier
   std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index);
   double CalculateLeaveOneOutValidation();
 
-  std::vector<std::size_t> ForwardSelection();
-  std::vector<std::size_t> BackwardElimination();
+  FeatureSetAccuracy ForwardSelection();
+  FeatureSetAccuracy BackwardElimination();
 
   private:
-    struct FeatureSetAccuracy
-    {
-      std::vector<std::size_t> feature_indices;
-      double accuracy;
-    };
 
 
     std::vector<RowData> training_data_set_;

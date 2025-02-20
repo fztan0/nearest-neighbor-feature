@@ -63,7 +63,9 @@ std::size_t Classifier::GetNearestNeighborIndex(const std::size_t current_testin
   {
     // skip current testing row
     if ( current_testing_index == i )
+    {
       continue;
+    }
 
     // calculate the distance between two objects through all of its indices
     double recent_distance = GetEuclideanDistance(training_data_set_.at(current_testing_index),
@@ -103,4 +105,14 @@ double Classifier::CalculateLeaveOneOutValidation()
 
   // make sure to cast to double of all values involved
   return ( (correct_classifications / static_cast<double>(RowData::GetNumberOfLabels(training_data_set_))) * 100.0 );
+}
+
+FeatureSetAccuracy Classifier::ForwardSelection()
+{
+  FeatureSetAccuracy best_feature_set{};
+
+
+
+
+  return best_feature_set;
 }
