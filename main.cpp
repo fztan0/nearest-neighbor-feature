@@ -3,12 +3,13 @@
 
 #include "print_handler.hpp"
 #include "classifier.hpp"
+#include "chrono_benchmark.hpp"
 
 // int main(int argc, char* argv[])
 int main()
 {
   // CHANGE THIS  TO CLI ARG INPUT AFTER FINISHING
-  std::string file_path = "input-data/CS170_Small_Data__125.txt";
+  std::string file_path = "input-data/CS170_Large_Data__1.txt";
 
   IEEEParser parser{};
 
@@ -20,11 +21,22 @@ int main()
 
   Classifier classifier{parser.ParseDataSet()};
 
-  PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
+  // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
   // PrintHandler::PrintFeaturesTable(classifier.GetAllFeatureColumnIndices());
 
-  std::cout << "K-Fold: " << classifier.CalculateLeaveOneOutValidation() << "\n";
+  std::cout << std::fixed << std::setprecision(2);
+  std::cout << "K-Fold on entire feature index, the accuracy is: " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "\n";
+
+  ChronoTimer timer{};
+
+  classifier.ForwardSelection();
+
+  std::cout << "\n\n";
+
+  classifier.BackwardElimination();
+
+  // classifier.BackwardElimination();
 
 
 
