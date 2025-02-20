@@ -119,7 +119,7 @@ void FeatureSetAccuracy::PrintFeatureSetAccuracy(const FeatureSetAccuracy &featu
   std::cout << "} ";
 
   std::cout << std::fixed << std::setprecision(2);
-  std::cout << " with an accuracy: " << feature_set_accuracy.accuracy << "%\n";
+  std::cout << "with an accuracy: " << feature_set_accuracy.accuracy << "%\n";
 
   return;
 }
@@ -228,12 +228,19 @@ void Classifier::BackwardElimination()
   std::unordered_set<std::size_t> selected_features(all_feature_column_indices_.begin(), all_feature_column_indices_.end());
   std::vector<std::size_t> current_feature_set{ all_feature_column_indices_ };
 
-  ChronoTimer timer{};
 
   // init full feature list
   best_feature_set.feature_indices = current_feature_set;
   best_feature_set.accuracy = CalculateLeaveOneOutValidation(current_feature_set);
-  FeatureSetAccuracy::PrintFeatureSetAccuracy(current_feature_set, best_feature_set.accuracy);
+
+  std::cout << "Initial full feature set: { ";
+  for (const auto& feature : current_feature_set)
+  {
+    std::cout << feature + 1 << " ";
+  }
+  std::cout << "} with accuracy: " << best_feature_set.accuracy << "%\n";
+
+  ChronoTimer timer{};
 
   // going backwards, careful with empty index
   for ( std::size_t i = 0; i < all_feature_column_indices_.size() - 1; ++i )
@@ -249,6 +256,14 @@ void Classifier::BackwardElimination()
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
 
+      std::cout << "    Using feature(s) { ";
+      for ( auto& k : checking_feature_set )
+      {
+        std::cout << k + 1 << " ";
+      }
+
+      std::cout << "} accuracy is: " << accuracy << "\n";
+
       if ( accuracy > best_accuracy )
       {
         best_accuracy = accuracy;
@@ -259,16 +274,28 @@ void Classifier::BackwardElimination()
     current_feature_set.erase( std::remove(current_feature_set.begin(), current_feature_set.end(), feature_to_remove), current_feature_set.end() );
     selected_features.erase(feature_to_remove);
 
-    if (best_accuracy > best_feature_set.accuracy)
+    if ( best_accuracy > best_feature_set.accuracy )
     {
       best_feature_set.feature_indices = current_feature_set;
       best_feature_set.accuracy = best_accuracy;
     }
 
-    FeatureSetAccuracy::PrintFeatureSetAccuracy(current_feature_set, best_accuracy);
+    if ( best_accuracy < best_feature_set.accuracy )
+    {
+      std::cout << "\n[WARNING] Accuracy has decreased! Continuing search in case of local maxima.";
+    }
+
+    std::cout << "\nFeature set { ";
+
+    for ( auto& k : current_feature_set )
+    {
+      std::cout << k + 1 << " ";
+    }
+
+    std::cout << "} was best, accuracy is: " << best_accuracy << "%\n\n";
   }
 
-  std::cout << "BEST ";
+  std::cout << "Finished search! The best subset is: ";
   FeatureSetAccuracy::PrintFeatureSetAccuracy(best_feature_set);
 }
 
