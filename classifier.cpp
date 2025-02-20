@@ -109,7 +109,7 @@ double Classifier::CalculateLeaveOneOutValidation(const std::vector<std::size_t>
 
 void FeatureSetAccuracy::PrintFeatureSetAccuracy(const FeatureSetAccuracy &feature_set_accuracy)
 {
-  std::cout << "set: { ";
+  std::cout << "{ ";
 
   for ( const auto& feature_index : feature_set_accuracy.feature_indices )
   {
@@ -119,7 +119,7 @@ void FeatureSetAccuracy::PrintFeatureSetAccuracy(const FeatureSetAccuracy &featu
   std::cout << "} ";
 
   std::cout << std::fixed << std::setprecision(2);
-  std::cout << "     ACC: " << feature_set_accuracy.accuracy << "\n";
+  std::cout << " with an accuracy: " << feature_set_accuracy.accuracy << "%\n";
 
   return;
 }
@@ -148,6 +148,8 @@ void Classifier::ForwardSelection()
   std::unordered_set<std::size_t> selected_features; // keep track of already selected
   std::vector<std::size_t> current_feature_set;
 
+  ChronoTimer timer{};
+
   // go through every feature index pass
   for ( std::size_t i = 0; i < all_feature_column_indices_.size(); ++i )
   {
@@ -164,9 +166,21 @@ void Classifier::ForwardSelection()
       }
 
       std::vector<std::size_t> checking_feature_set = current_feature_set;
+
+
       checking_feature_set.push_back(j);
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
+
+
+      std::cout << "    Using feature(s) { ";
+      for ( auto& k : checking_feature_set )
+      {
+        std::cout << k + 1 << " "; // professor uses matlab, account for off by 1
+      }
+
+      std::cout << "} accuracy is: " << accuracy << "\n";
+
 
       // every time a feature increases accuracy, set as new feature to add
       if ( accuracy > best_accuracy )
@@ -185,10 +199,19 @@ void Classifier::ForwardSelection()
       best_feature_set.accuracy = best_accuracy;
     }
 
-    FeatureSetAccuracy::PrintFeatureSetAccuracy(current_feature_set, best_accuracy);
+    std::cout << "\nFeature set { ";
+
+    for ( auto& k : current_feature_set )
+    {
+      std::cout << k + 1 << " ";
+    }
+
+    std::cout << "} was best, accuracy is: " << best_accuracy << "%\n\n";
+
+    // FeatureSetAccuracy::PrintFeatureSetAccuracy(current_feature_set, best_accuracy);
   }
 
-  std::cout << "BEST ";
+  std::cout << "Finished search! The best subset is: ";
   FeatureSetAccuracy::PrintFeatureSetAccuracy(best_feature_set);
 }
 
@@ -198,6 +221,8 @@ void Classifier::BackwardElimination()
   FeatureSetAccuracy best_feature_set;
   std::unordered_set<std::size_t> selected_features(all_feature_column_indices_.begin(), all_feature_column_indices_.end());
   std::vector<std::size_t> current_feature_set{ all_feature_column_indices_ };
+
+  ChronoTimer timer{};
 
   // init full feature list
   best_feature_set.feature_indices = current_feature_set;

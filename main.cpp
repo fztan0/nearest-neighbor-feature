@@ -5,13 +5,22 @@
 #include "classifier.hpp"
 #include "chrono_benchmark.hpp"
 
-// int main(int argc, char* argv[])
+
+/*
+
+  SMALL: 46
+  BIG: 81
+
+*/
+
 int main()
 {
-  // CHANGE THIS  TO CLI ARG INPUT AFTER FINISHING
-  std::string file_path = "input-data/CS170_Large_Data__1.txt";
+  IEEEParser parser;
+  std::string file_path;
 
-  IEEEParser parser{};
+  std::cout << "Welcome to Jeff Tan's Feature Selection Algorithm.\nType in the file name to test:\n><>";
+  std::cin >> file_path;
+  std::cout << "\n";
 
   if ( parser.SetInputFileStream(file_path) != 0 )
   {
@@ -19,26 +28,46 @@ int main()
     return -1;
   }
 
+
+  int algorithm_choice;
+  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n><>";
+  std::cin >> algorithm_choice;
+  std::cout << "\n";
+
   Classifier classifier{parser.ParseDataSet()};
+  switch (algorithm_choice)
+  {
+    case 1:
+      std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n\n";
+      std::cout << "Running nearest neighbor with all " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features using \"leaving-one-out\" evaluation. I get an accuracy of " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << ".\n\n";
+      std::cout << "Beginning search...\n\n";
 
-  // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet());
 
-  // PrintHandler::PrintFeaturesTable(classifier.GetAllFeatureColumnIndices());
+      classifier.ForwardSelection();
+      break;
+
+    case 2:
+      std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n";
+
+
+      classifier.BackwardElimination();
+      break;
+
+    default:
+      std::cerr << "Invalid choice. Please select 1 or 2.\n";
+      return -1;
+  }
+
+
+
 
   std::cout << std::fixed << std::setprecision(2);
   std::cout << "K-Fold on entire feature index, the accuracy is: " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "\n";
 
-  ChronoTimer timer{};
 
-  classifier.ForwardSelection();
 
-  std::cout << "\n\n";
-
-  classifier.BackwardElimination();
 
   // classifier.BackwardElimination();
-
-
 
 
   // std::cout << "Accessing feature_values[492]:\n";

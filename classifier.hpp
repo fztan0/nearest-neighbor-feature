@@ -8,6 +8,8 @@
 #include <algorithm>
 
 #include "IEEE_data_parser.hpp"
+#include "chrono_benchmark.hpp"
+
 
 struct FeatureSetAccuracy
 {
