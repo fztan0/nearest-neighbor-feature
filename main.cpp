@@ -28,7 +28,7 @@ int main()
 
 
   // std::cout << "Accessing feature_values[492]:\n";
-  // for (const auto& feature : classifier.GetTrainingDataSet()[492].feature_values)
+  // for ( const auto& feature : classifier.GetTrainingDataSet()[492].feature_values )
   // {
   //   std::cout << feature << " ";
   // }

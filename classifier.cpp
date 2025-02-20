@@ -62,7 +62,7 @@ std::size_t Classifier::GetNearestNeighborIndex(const std::size_t current_testin
   for ( std::size_t i = 0; i < training_data_set_.size(); ++i )
   {
     // skip current testing row
-    if (current_testing_index == i)
+    if ( current_testing_index == i )
       continue;
 
     // calculate the distance between two objects through all of its indices
@@ -71,7 +71,7 @@ std::size_t Classifier::GetNearestNeighborIndex(const std::size_t current_testin
                                                   all_feature_column_indices_);
 
     // update nearest distance label
-    if (recent_distance < nearest_distance_so_far)
+    if ( recent_distance < nearest_distance_so_far )
     {
       nearest_distance_so_far = recent_distance;
       nearest_label_index_so_far = i;
@@ -93,7 +93,7 @@ double Classifier::CalculateLeaveOneOutValidation()
     nearest_distance_index = GetNearestNeighborIndex(i);
 
     // if the nearest object is the same class as the current row increment
-    if (training_data_set_.at(i).class_label == training_data_set_.at(nearest_distance_index).class_label)
+    if ( training_data_set_.at(i).class_label == training_data_set_.at(nearest_distance_index).class_label )
     {
       ++correct_classifications;
     }
