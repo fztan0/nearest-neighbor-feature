@@ -18,7 +18,12 @@ SOURCES = $(wildcard *.cpp)
 # pattern substitution on all cpp files with .o object output name scheme
 OBJECTS = $(patsubst %.cpp, build/%.o, $(SOURCES))
 
-EXECUTABLE = a.out
+# check OS
+ifeq ($(OS),Windows_NT)
+	EXECUTABLE = a.exe
+else
+	EXECUTABLE = a.out
+endif
 
 all: clean $(EXECUTABLE)
 # @./$(EXECUTABLE)
