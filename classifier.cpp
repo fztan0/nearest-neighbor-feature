@@ -179,7 +179,7 @@ void Classifier::ForwardSelection()
         std::cout << k + 1 << " "; // professor uses matlab, account for off by 1
       }
 
-      std::cout << "} accuracy is: " << accuracy << "\n";
+      std::cout << "} accuracy is: " << accuracy << "%\n";
 
 
       // every time a feature increases accuracy, set as new feature to add
@@ -262,7 +262,7 @@ void Classifier::BackwardElimination()
         std::cout << k + 1 << " ";
       }
 
-      std::cout << "} accuracy is: " << accuracy << "\n";
+      std::cout << "} accuracy is: " << accuracy << "%\n";
 
       if ( accuracy > best_accuracy )
       {
