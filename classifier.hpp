@@ -37,8 +37,10 @@ class Classifier
   std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index, const std::vector<std::size_t>& features_indices);
   double CalculateLeaveOneOutValidation(const std::vector<std::size_t>& feature_indices);
 
-  void ForwardSelection();
-  void BackwardElimination();
+  void RemoveFeatureIndices(std::vector<std::size_t>& feature_indices);
+
+  FeatureSetAccuracy ForwardSelection();
+  FeatureSetAccuracy BackwardElimination();
 
   private:
 

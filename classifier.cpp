@@ -119,7 +119,7 @@ void FeatureSetAccuracy::PrintFeatureSetAccuracy(const FeatureSetAccuracy &featu
   std::cout << "} ";
 
   std::cout << std::fixed << std::setprecision(2);
-  std::cout << "with an accuracy: " << feature_set_accuracy.accuracy << "%\n";
+  std::cout << "with an accuracy: " << feature_set_accuracy.accuracy << "%\n\n";
 
   return;
 }
@@ -142,7 +142,7 @@ void FeatureSetAccuracy::PrintFeatureSetAccuracy(const std::vector<std::size_t> 
   return;
 }
 
-void Classifier::ForwardSelection()
+FeatureSetAccuracy Classifier::ForwardSelection()
 {
   FeatureSetAccuracy best_feature_set;
   std::unordered_set<std::size_t> selected_features; // keep track of already selected
@@ -160,7 +160,7 @@ void Classifier::ForwardSelection()
     for ( std::size_t j = 0; j < all_feature_column_indices_.size(); ++j )
     {
       // skip if the feature already selected before
-      if ( selected_features.count(j) > 0 )
+      if ( selected_features.count(all_feature_column_indices_[j]) > 0 )
       {
         continue;
       }
@@ -168,7 +168,7 @@ void Classifier::ForwardSelection()
       std::vector<std::size_t> checking_feature_set = current_feature_set;
 
 
-      checking_feature_set.push_back(j);
+      checking_feature_set.push_back(all_feature_column_indices_[j]);
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
 
@@ -186,7 +186,7 @@ void Classifier::ForwardSelection()
       if ( accuracy > best_accuracy )
       {
         best_accuracy = accuracy;
-        feature_to_add = j;
+        feature_to_add = all_feature_column_indices_[j];
       }
     }
 
@@ -219,10 +219,12 @@ void Classifier::ForwardSelection()
 
   std::cout << "Finished search! The best subset is: ";
   FeatureSetAccuracy::PrintFeatureSetAccuracy(best_feature_set);
+
+  return best_feature_set;
 }
 
 
-void Classifier::BackwardElimination()
+FeatureSetAccuracy Classifier::BackwardElimination()
 {
   FeatureSetAccuracy best_feature_set;
   std::unordered_set<std::size_t> selected_features(all_feature_column_indices_.begin(), all_feature_column_indices_.end());
@@ -297,5 +299,40 @@ void Classifier::BackwardElimination()
 
   std::cout << "Finished search! The best subset is: ";
   FeatureSetAccuracy::PrintFeatureSetAccuracy(best_feature_set);
+
+  return best_feature_set;
 }
 
+void Classifier::RemoveFeatureIndices(std::vector<std::size_t> &feature_indices)
+{
+  std::cout << "Removing the best features ";
+
+  std::cout << "{ ";
+  for (const auto& index : feature_indices)
+  {
+    std::cout << index + 1 << " ";
+  }
+  std::cout << "} ";
+
+  std::cout << "from indexed dataset...\n\n";
+
+  std::cout << "Current feature indices before removal: { ";
+  for (const auto& index : all_feature_column_indices_)
+  {
+    std::cout << index + 1 << " ";
+  }
+  std::cout << "}\n\n";
+
+
+  for ( auto& feature_index : feature_indices )
+  {
+    all_feature_column_indices_.erase( std::remove(all_feature_column_indices_.begin(), all_feature_column_indices_.end(), feature_index), all_feature_column_indices_.end() );
+  }
+
+  std::cout << "Current feature indices after removal: { ";
+  for (const auto& index : all_feature_column_indices_)
+  {
+    std::cout << index + 1 << " ";
+  }
+  std::cout << "}\n\n";
+}

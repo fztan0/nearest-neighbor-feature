@@ -17,6 +17,7 @@ int main()
 {
   IEEEParser parser;
   std::string file_path;
+  FeatureSetAccuracy best_features_from_first_run;
 
   std::cout << "Welcome to Jeff Tan's Feature Selection Algorithm.\nType in the file name to test:\n><>";
   std::cin >> file_path;
@@ -30,6 +31,7 @@ int main()
 
 
   int algorithm_choice;
+  int rerun_choice;
   std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n><>";
   std::cin >> algorithm_choice;
   std::cout << "\n";
@@ -42,7 +44,8 @@ int main()
       std::cout << "Running nearest neighbor with all " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features using \"leaving-one-out\" evaluation, I get an accuracy of " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "%.\n\n";
       std::cout << "Beginning search...\n\n";
 
-      classifier.ForwardSelection();
+      best_features_from_first_run = classifier.ForwardSelection();
+
       break;
 
     case 2:
@@ -50,13 +53,53 @@ int main()
       std::cout << "Running nearest neighbor with all " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features using \"leaving-one-out\" evaluation, I get an accuracy of " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "%.\n\n";
       std::cout << "Beginning search...\n\n";
 
-      classifier.BackwardElimination();
+      best_features_from_first_run = classifier.BackwardElimination();
+
       break;
 
     default:
       std::cerr << "Invalid choice. Please select 1 or 2.\n";
       return -1;
   }
+
+  if (algorithm_choice == 1 || algorithm_choice == 2)
+  {
+    std::cout << "Would you like to find the weaker feature(s) by removing the best features found previously, or find the irrelevant feature instead?\n    1. Weaker Feature\n    2. Irrelevant Feature\n    3. Exit\n><>";
+    std::cin >> rerun_choice;
+    std::cout << "\n";
+
+    switch (rerun_choice)
+    {
+      case 1:
+        FeatureSetAccuracy::PrintFeatureSetAccuracy(best_features_from_first_run);
+        classifier.RemoveFeatureIndices(best_features_from_first_run.feature_indices);
+
+        std::cout << "Rerunning without best previous features...\n";
+
+        if ( algorithm_choice == 1 )
+        {
+          classifier.ForwardSelection();
+        }
+        else if ( algorithm_choice == 2 )
+        {
+          classifier.BackwardElimination();
+        }
+
+
+
+
+        break;
+
+      case 2:
+        std::cout << "Exiting...\n";
+        break;
+
+      default:
+        std::cout << "Exiting...\n";
+        break;
+    }
+  }
+
 
 
 
