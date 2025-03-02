@@ -230,7 +230,6 @@ FeatureSetAccuracy Classifier::BackwardElimination()
   std::unordered_set<std::size_t> selected_features(all_feature_column_indices_.begin(), all_feature_column_indices_.end());
   std::vector<std::size_t> current_feature_set{ all_feature_column_indices_ };
 
-
   // init full feature list
   best_feature_set.feature_indices = current_feature_set;
   best_feature_set.accuracy = CalculateLeaveOneOutValidation(current_feature_set);
@@ -254,7 +253,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
     for ( std::size_t j : selected_features )
     {
       std::vector<std::size_t> checking_feature_set = current_feature_set;
-      checking_feature_set.erase( std::remove(checking_feature_set.begin(), checking_feature_set.end(), j), checking_feature_set.end() );
+      checking_feature_set.erase( std::remove(checking_feature_set.begin(), checking_feature_set.end(), j), checking_feature_set.end() ); // remove what we are looking for instead of what is at the total index
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
 
@@ -269,7 +268,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
       if ( accuracy > best_accuracy )
       {
         best_accuracy = accuracy;
-        feature_to_remove = j;
+        feature_to_remove = all_feature_column_indices_[j];
       }
     }
 

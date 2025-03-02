@@ -64,13 +64,17 @@ int main()
 
   if (algorithm_choice == 1 || algorithm_choice == 2)
   {
-    std::cout << "Would you like to find the weaker feature(s) by removing the best features found previously, or find the irrelevant feature instead?\n    1. Weaker Feature\n    2. Irrelevant Feature\n    3. Exit\n><>";
+    std::cout << "Type the number of operation you want to use next:\n    1. Remove Best One-By-One and Rerun\n    2. Find Weaker Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
     std::cin >> rerun_choice;
     std::cout << "\n";
 
     switch (rerun_choice)
     {
       case 1:
+        std::cout << "Removing ";
+        break;
+
+      case 2:
         FeatureSetAccuracy::PrintFeatureSetAccuracy(best_features_from_first_run);
         classifier.RemoveFeatureIndices(best_features_from_first_run.feature_indices);
 
@@ -85,12 +89,15 @@ int main()
           classifier.BackwardElimination();
         }
 
+        /*
+          IDEA: Remove each feature in best set from total set and rerun individually for each removal
+        */
 
 
 
         break;
 
-      case 2:
+      case 3:
         std::cout << "Exiting...\n";
         break;
 
