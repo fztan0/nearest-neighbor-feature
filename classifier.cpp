@@ -302,7 +302,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
   return best_feature_set;
 }
 
-void Classifier::RemoveFeatureIndices(std::vector<std::size_t> &feature_indices)
+void Classifier::RemoveFeatureIndices(std::vector<std::size_t> feature_indices)
 {
   std::cout << "Removing the best features ";
 

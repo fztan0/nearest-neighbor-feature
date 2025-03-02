@@ -8,16 +8,19 @@
 
 /* DATASET ASSIGNED
 
-  SMALL: 46
-  BIG: 81
+SMALL: 46
+BIG: 81
 
 */
 
 int main()
 {
-  IEEEParser parser;
-  std::string file_path;
   FeatureSetAccuracy best_features_from_first_run;
+  IEEEParser parser;
+  int algorithm_choice;
+  int rerun_choice;
+  std::string file_path;
+  std::vector<std::pair<std::size_t, FeatureSetAccuracy>> remove_one_best_results;
 
   std::cout << "Welcome to Jeff Tan's Feature Selection Algorithm.\nType in the file name to test:\n><>";
   std::cin >> file_path;
@@ -29,14 +32,15 @@ int main()
     return -1;
   }
 
+  Classifier classifier{parser.ParseDataSet()};
+  std::vector<std::size_t> full_indices_copy = classifier.GetAllFeatureColumnIndices();
 
-  int algorithm_choice;
-  int rerun_choice;
+
+
   std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n><>";
   std::cin >> algorithm_choice;
   std::cout << "\n";
 
-  Classifier classifier{parser.ParseDataSet()};
   switch (algorithm_choice)
   {
     case 1:
@@ -64,14 +68,49 @@ int main()
 
   if (algorithm_choice == 1 || algorithm_choice == 2)
   {
-    std::cout << "Type the number of operation you want to use next:\n    1. Remove Best One-By-One and Rerun\n    2. Find Weaker Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
+    std::cout << "Type the number of operation you want to use next:\n    1. Remove Each Best and Restore\n    2. Find Weaker Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
     std::cin >> rerun_choice;
     std::cout << "\n";
 
+
     switch (rerun_choice)
     {
+      /*
+      IDEA: Remove each feature in best set from total set and rerun individually for each removal
+      */
       case 1:
-        std::cout << "Removing ";
+
+        for ( auto& feature_index : best_features_from_first_run.feature_indices )
+        {
+          std::cout << "Removing " << feature_index << " and running selected algorithm...";
+
+          classifier.RemoveFeatureIndices(std::vector<size_t>{feature_index});
+
+          switch (algorithm_choice)
+          {
+            case 1:
+              remove_one_best_results.push_back(std::pair<std::size_t, FeatureSetAccuracy>(feature_index, classifier.ForwardSelection()));
+              break;
+            case 2:
+              remove_one_best_results.push_back(std::pair<std::size_t, FeatureSetAccuracy>(feature_index, classifier.BackwardElimination()));
+              break;
+            default:
+              std::cout << "BAD CHOICE\n";
+              return -1;
+          }
+
+
+          // restore the original feature set for the next iteration
+          classifier.SetAllFeatureColumnIndices(full_indices_copy);
+        }
+
+        std::cout << "Results after removing each and restoring from the best set:\n";
+        for (const auto& result : remove_one_best_results)
+        {
+          std::cout << "Feature removed: " << result.first + 1 << " -> Set and Accuracy: ";
+          FeatureSetAccuracy::PrintFeatureSetAccuracy(result.second);
+        }
+
         break;
 
       case 2:
@@ -80,21 +119,18 @@ int main()
 
         std::cout << "Rerunning without best previous features...\n";
 
-        if ( algorithm_choice == 1 )
+        switch (algorithm_choice)
         {
-          classifier.ForwardSelection();
+          case 1:
+            classifier.ForwardSelection();
+            break;
+          case 2:
+            classifier.BackwardElimination();
+            break;
+          default:
+            std::cout << "BAD CHOICE\n";
+            return -1;
         }
-        else if ( algorithm_choice == 2 )
-        {
-          classifier.BackwardElimination();
-        }
-
-        /*
-          IDEA: Remove each feature in best set from total set and rerun individually for each removal
-        */
-
-
-
         break;
 
       case 3:

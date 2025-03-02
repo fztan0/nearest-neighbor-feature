@@ -37,7 +37,8 @@ class Classifier
   std::size_t GetNearestNeighborIndex(const std::size_t current_testing_index, const std::vector<std::size_t>& features_indices);
   double CalculateLeaveOneOutValidation(const std::vector<std::size_t>& feature_indices);
 
-  void RemoveFeatureIndices(std::vector<std::size_t>& feature_indices);
+  // not worth passing in by reference, best sets are so small. also now allows direct temporary objects (undeclared/undefined) for passing
+  void RemoveFeatureIndices(std::vector<std::size_t> feature_indices);
 
   FeatureSetAccuracy ForwardSelection();
   FeatureSetAccuracy BackwardElimination();
