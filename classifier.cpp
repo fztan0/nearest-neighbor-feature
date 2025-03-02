@@ -253,7 +253,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
     for ( std::size_t j : selected_features )
     {
       std::vector<std::size_t> checking_feature_set = current_feature_set;
-      checking_feature_set.erase( std::remove(checking_feature_set.begin(), checking_feature_set.end(), j), checking_feature_set.end() ); // remove what we are looking for instead of what is at the total index
+      checking_feature_set.erase( std::remove(checking_feature_set.begin(), checking_feature_set.end(), j), checking_feature_set.end() ); // remove what we are looking for instead of what is at the total
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
 
