@@ -4,4 +4,6 @@
 
 2. go to project's root directory and run `make`
 
-3. BLAH BLAH BLAH
+3. run `./a.out`
+
+Note: The path provided to the program is the `relative path` from the working directory.
