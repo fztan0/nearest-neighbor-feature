@@ -134,6 +134,32 @@ int main()
         break;
 
       case 3:
+        {
+          double initial_accuracy = classifier.CalculateLeaveOneOutValidation(full_indices_copy);
+          double min_accuracy_drop = std::numeric_limits<double>::max();
+          std::size_t irrelevant_feature = 0;
+
+          for (const auto& feature_index : full_indices_copy)
+          {
+            classifier.RemoveFeatureIndices(std::vector<size_t>{feature_index});
+            double accuracy = classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices());
+            double accuracy_drop = initial_accuracy - accuracy;
+
+            if (accuracy_drop < min_accuracy_drop)
+            {
+              min_accuracy_drop = accuracy_drop;
+              irrelevant_feature = feature_index;
+            }
+
+            // restore the original feature set for the next iteration
+            classifier.SetAllFeatureColumnIndices(full_indices_copy);
+          }
+
+          std::cout << "The most irrelevant feature is: " << irrelevant_feature + 1 << " with an accuracy drop of: " << min_accuracy_drop << "%\n";
+        }
+        break;
+
+      case 4:
         std::cout << "Exiting...\n";
         break;
 
