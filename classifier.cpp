@@ -153,7 +153,7 @@ FeatureSetAccuracy Classifier::ForwardSelection()
   // go through every feature index pass
   for ( std::size_t i = 0; i < all_feature_column_indices_.size(); ++i )
   {
-    std::size_t feature_to_add = 0;
+    std::size_t feature_to_add = std::numeric_limits<std::size_t>::max();
     double best_accuracy = 0.0;
 
     // check potential features to add
@@ -246,7 +246,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
   // going backwards, careful with empty index
   for ( std::size_t i = 0; i < all_feature_column_indices_.size() - 1; ++i )
   {
-    std::size_t feature_to_remove = 0;
+    std::size_t feature_to_remove = std::numeric_limits<std::size_t>::max();
     double best_accuracy = 0.0;
 
     // check each feature for removal
@@ -294,6 +294,12 @@ FeatureSetAccuracy Classifier::BackwardElimination()
     }
 
     std::cout << "} was best, accuracy is: " << best_accuracy << "%\n\n";
+
+    // avoid removing empty
+    if ( current_feature_set.size() <= 1 )
+    {
+      break;
+    }
   }
 
   std::cout << "Finished search! The best subset is: ";
