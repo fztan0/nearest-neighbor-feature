@@ -111,6 +111,8 @@ int main()
           FeatureSetAccuracy::PrintFeatureSetAccuracy(result.second);
         }
 
+        std::cout << "The difference of the remove-and-restore is the weak feature.\n";
+
         break;
 
       case 2:
