@@ -68,7 +68,7 @@ int main()
 
   if (algorithm_choice == 1 || algorithm_choice == 2)
   {
-    std::cout << "Type the number of operation you want to use next:\n    1. Remove Each Best and Restore\n    2. Find Weaker Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
+    std::cout << "Type the number of operation you want to use next:\n    1. Find Weak Feature (Remove Each Best and Restore)\n    2. Eliminate Best Set Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
     std::cin >> rerun_choice;
     std::cout << "\n";
 
