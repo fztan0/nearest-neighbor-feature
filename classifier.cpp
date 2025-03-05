@@ -165,13 +165,14 @@ FeatureSetAccuracy Classifier::ForwardSelection()
         continue;
       }
 
+      // duplicate for checking
       std::vector<std::size_t> checking_feature_set = current_feature_set;
 
 
+      // post-processing functions conflict with direct index value adding, do value at index instead
       checking_feature_set.push_back(all_feature_column_indices_[j]);
 
       double accuracy = CalculateLeaveOneOutValidation(checking_feature_set);
-
 
       std::cout << "    Using feature(s) { ";
       for ( auto& k : checking_feature_set )
@@ -189,6 +190,8 @@ FeatureSetAccuracy Classifier::ForwardSelection()
         feature_to_add = all_feature_column_indices_[j];
       }
     }
+
+    // by here we have best accuracy after internal loop scan
 
     current_feature_set.push_back(feature_to_add);
     selected_features.insert(feature_to_add);
