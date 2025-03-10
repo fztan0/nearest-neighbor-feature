@@ -37,7 +37,7 @@ int main()
 
 
 
-  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n><>";
+  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n    \n3. EXTRA CREDIT\n><>";
   std::cin >> algorithm_choice;
   std::cout << "\n";
 
@@ -58,6 +58,12 @@ int main()
       std::cout << "Beginning search...\n\n";
 
       best_features_from_first_run = classifier.BackwardElimination();
+
+      break;
+
+    case 3:
+
+      std::cout << "evaluating blah blah dataset from UCI's blah blah\n";
 
       break;
 
@@ -111,7 +117,7 @@ int main()
           FeatureSetAccuracy::PrintFeatureSetAccuracy(result.second);
         }
 
-        std::cout << "The difference of the remove-and-restore is the weak feature.\n";
+        std::cout << "The difference of the remove-and-restore best features is the weak feature.\n";
 
         break;
 
