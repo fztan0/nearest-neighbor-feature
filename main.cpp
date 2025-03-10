@@ -37,7 +37,7 @@ int main()
 
 
 
-  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n    \n3. EXTRA CREDIT\n><>";
+  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n    3. EXTRA CREDIT\n><>";
   std::cin >> algorithm_choice;
   std::cout << "\n";
 
