@@ -41,6 +41,8 @@ int main()
   std::cin >> algorithm_choice;
   std::cout << "\n";
 
+  // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet()  );
+
   switch (algorithm_choice)
   {
     case 1:

@@ -180,6 +180,7 @@ FeatureSetAccuracy Classifier::ForwardSelection()
         std::cout << k + 1 << " "; // professor uses matlab, account for off by 1
       }
 
+      std::cout << std::fixed << std::setprecision(2);
       std::cout << "} accuracy is: " << accuracy << "%\n";
 
 
@@ -215,6 +216,7 @@ FeatureSetAccuracy Classifier::ForwardSelection()
       std::cout << k + 1 << " ";
     }
 
+    std::cout << std::fixed << std::setprecision(2);
     std::cout << "} was best, accuracy is: " << best_accuracy << "%\n\n";
 
     // FeatureSetAccuracy::PrintFeatureSetAccuracy(current_feature_set, best_accuracy);
@@ -266,6 +268,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
         std::cout << k + 1 << " ";
       }
 
+      std::cout << std::fixed << std::setprecision(2);
       std::cout << "} accuracy is: " << accuracy << "%\n";
 
       if ( accuracy > best_accuracy )
@@ -296,6 +299,7 @@ FeatureSetAccuracy Classifier::BackwardElimination()
       std::cout << k + 1 << " ";
     }
 
+    std::cout << std::fixed << std::setprecision(2);
     std::cout << "} was best, accuracy is: " << best_accuracy << "%\n\n";
 
     // avoid removing empty
