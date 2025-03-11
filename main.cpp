@@ -44,7 +44,7 @@ int main()
   // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet()  );
 
   std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n\n";
-  std::cout << "The default rate is: " << std::fixed << std::setprecision(2) << classifier.GetDefaultRate() << "\n";
+  std::cout << "The default rate is: " << std::fixed << std::setprecision(2) << (classifier.GetDefaultRate() * 100.00) << "%\n";
 
   switch (algorithm_choice)
   {
