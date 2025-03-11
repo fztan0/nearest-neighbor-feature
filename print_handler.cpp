@@ -46,7 +46,7 @@ void PrintHandler::PrintFeatureSetAccuracy(const FeatureSetAccuracy &feature_set
 
   std::cout << "} ";
 
-  std::cout << std::fixed << std::setprecision(2);
+  std::cout << std::fixed << std::setprecision(1);
   std::cout << "     ACC: " << feature_set_accuracy.accuracy << "\n";
 
   return;
