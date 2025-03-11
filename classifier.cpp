@@ -34,6 +34,28 @@ void Classifier::SetAllFeatureColumnIndices(const std::vector<std::size_t> &all_
 }
 
 
+double Classifier::GetDefaultRate()
+{
+  std::unordered_map<int, int> label_count;
+
+  for (const auto& row : training_data_set_)
+  {
+    ++label_count[row.class_label];
+  }
+
+  int max_count = 0;
+
+  for (const auto& label : label_count)
+  {
+    if (label.second > max_count)
+    {
+      max_count = label.second;
+    }
+  }
+
+  return static_cast<double>(max_count) / static_cast<double>(training_data_set_.size());
+}
+
 /*
   6__MachineLearning001.pdf
   page 84

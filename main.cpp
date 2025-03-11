@@ -37,16 +37,18 @@ int main()
 
 
 
-  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n    3. EXTRA CREDIT\n><>";
+  std::cout << "Type the number of the algorithm you want to use:\n    1. Forward Selection\n    2. Backward Elimination\n><>";
   std::cin >> algorithm_choice;
   std::cout << "\n";
 
   // PrintHandler::PrintDataSet(classifier.GetTrainingDataSet()  );
 
+  std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n\n";
+  std::cout << "The default rate is: " << std::fixed << std::setprecision(2) << classifier.GetDefaultRate() << "\n";
+
   switch (algorithm_choice)
   {
     case 1:
-      std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n\n";
       std::cout << "Running nearest neighbor with all " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features using \"leaving-one-out\" evaluation, I get an accuracy of " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "%.\n\n";
       std::cout << "Beginning search...\n\n";
 
@@ -55,7 +57,6 @@ int main()
       break;
 
     case 2:
-      std::cout << "This dataset has " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features (not including the class label attribute), with " << classifier.GetTrainingDataSet().size() << " instances.\n\n";
       std::cout << "Running nearest neighbor with all " << classifier.GetTrainingDataSet()[0].feature_values.size() << " features using \"leaving-one-out\" evaluation, I get an accuracy of " << classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices()) << "%.\n\n";
       std::cout << "Beginning search...\n\n";
 
@@ -76,7 +77,7 @@ int main()
 
   if (algorithm_choice == 1 || algorithm_choice == 2)
   {
-    std::cout << "Type the number of operation you want to use next:\n    1. Find Weak Feature (Remove Each Best and Restore)\n    2. Eliminate Best Set Features\n    3. Find Irrelevant Feature\n    4. Exit\n><>";
+    std::cout << "Type the number of operation you want to use next:\n    1. Find Weak Feature (Remove Each Best Individually)\n    2. Exit\n><>";
     std::cin >> rerun_choice;
     std::cout << "\n";
 
@@ -123,53 +124,53 @@ int main()
 
         break;
 
+      // case 2:
+      //   FeatureSetAccuracy::PrintFeatureSetAccuracy(best_features_from_first_run);
+      //   classifier.RemoveFeatureIndices(best_features_from_first_run.feature_indices);
+
+      //   std::cout << "Rerunning without best previous features...\n";
+
+      //   switch (algorithm_choice)
+      //   {
+      //     case 1:
+      //       classifier.ForwardSelection();
+      //       break;
+      //     case 2:
+      //       classifier.BackwardElimination();
+      //       break;
+      //     default:
+      //       std::cout << "BAD CHOICE\n";
+      //       return -1;
+      //   }
+      //   break;
+
+      // case 3:
+      //   {
+      //     double initial_accuracy = classifier.CalculateLeaveOneOutValidation(full_indices_copy);
+      //     double min_accuracy_drop = std::numeric_limits<double>::max();
+      //     std::size_t irrelevant_feature = 0;
+
+      //     for (const auto& feature_index : full_indices_copy)
+      //     {
+      //       classifier.RemoveFeatureIndices(std::vector<size_t>{feature_index});
+      //       double accuracy = classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices());
+      //       double accuracy_drop = initial_accuracy - accuracy;
+
+      //       if (accuracy_drop < min_accuracy_drop)
+      //       {
+      //         min_accuracy_drop = accuracy_drop;
+      //         irrelevant_feature = feature_index;
+      //       }
+
+      //       // restore the original feature set for the next iteration
+      //       classifier.SetAllFeatureColumnIndices(full_indices_copy);
+      //     }
+
+      //     std::cout << "The most irrelevant feature is: " << irrelevant_feature + 1 << " with an accuracy drop of: " << min_accuracy_drop << "%\n";
+      //   }
+      //   break;
+
       case 2:
-        FeatureSetAccuracy::PrintFeatureSetAccuracy(best_features_from_first_run);
-        classifier.RemoveFeatureIndices(best_features_from_first_run.feature_indices);
-
-        std::cout << "Rerunning without best previous features...\n";
-
-        switch (algorithm_choice)
-        {
-          case 1:
-            classifier.ForwardSelection();
-            break;
-          case 2:
-            classifier.BackwardElimination();
-            break;
-          default:
-            std::cout << "BAD CHOICE\n";
-            return -1;
-        }
-        break;
-
-      case 3:
-        {
-          double initial_accuracy = classifier.CalculateLeaveOneOutValidation(full_indices_copy);
-          double min_accuracy_drop = std::numeric_limits<double>::max();
-          std::size_t irrelevant_feature = 0;
-
-          for (const auto& feature_index : full_indices_copy)
-          {
-            classifier.RemoveFeatureIndices(std::vector<size_t>{feature_index});
-            double accuracy = classifier.CalculateLeaveOneOutValidation(classifier.GetAllFeatureColumnIndices());
-            double accuracy_drop = initial_accuracy - accuracy;
-
-            if (accuracy_drop < min_accuracy_drop)
-            {
-              min_accuracy_drop = accuracy_drop;
-              irrelevant_feature = feature_index;
-            }
-
-            // restore the original feature set for the next iteration
-            classifier.SetAllFeatureColumnIndices(full_indices_copy);
-          }
-
-          std::cout << "The most irrelevant feature is: " << irrelevant_feature + 1 << " with an accuracy drop of: " << min_accuracy_drop << "%\n";
-        }
-        break;
-
-      case 4:
         std::cout << "Exiting...\n";
         break;
 
