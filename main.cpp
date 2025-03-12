@@ -91,7 +91,7 @@ int main()
 
         for ( auto& feature_index : best_features_from_first_run.feature_indices )
         {
-          std::cout << "Removing " << feature_index << " and running selected algorithm...";
+          std::cout << "Removing " << feature_index + 1 << " and running selected algorithm...";
 
           classifier.RemoveFeatureIndices(std::vector<size_t>{feature_index});
 
